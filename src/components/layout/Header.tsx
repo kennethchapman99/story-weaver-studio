@@ -16,9 +16,9 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-lg">
-      <div className="container flex h-16 items-center justify-between">
+      <div className="container flex h-20 items-center justify-between md:h-24">
         <Link to="/" className="flex items-center gap-2">
-          <img src={logo} alt="StoryLoom" className="h-9 w-auto" />
+          <img src={logo} alt="StoryLoom — custom novels & series" className="h-14 w-auto md:h-16" />
           <span className="sr-only">StoryLoom</span>
         </Link>
 

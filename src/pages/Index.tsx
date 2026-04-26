@@ -7,6 +7,7 @@ import { TrustSection } from "@/components/storyloom/TrustSection";
 import { CtaFooter } from "@/components/storyloom/CtaFooter";
 import { Section } from "@/components/storyloom/Section";
 import { PackageCards } from "@/components/storyloom/PackageCards";
+import { LifestyleGallery } from "@/components/storyloom/LifestyleGallery";
 
 const Index = () => {
   return (
@@ -14,6 +15,7 @@ const Index = () => {
       <HeroSection />
       <HowItWorks />
       <ProductFormatCards />
+      <LifestyleGallery />
       <Section eyebrow="Packages" title="Pick the package that fits the gift" subtitle="Single novels, three-book arcs, and gift-ready editions.">
         <PackageCards />
       </Section>
