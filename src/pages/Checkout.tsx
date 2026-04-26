@@ -8,6 +8,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useState } from "react";
 import { Loader2, Lock, ArrowLeft } from "lucide-react";
 import { createCheckoutSession, createOrderDraft } from "@/services/api";
+import { PROVIDER_LABEL, PAYMENT_PROVIDER } from "@/services/payments";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 
@@ -35,7 +36,13 @@ export default function Checkout() {
       const order = await createOrderDraft({ ...draft, contactEmail: email });
       // TODO: replace mock with real Stripe Checkout: window.location.href = session.url
       const session = await createCheckoutSession({ ...draft, id: order.id, contactEmail: email });
-      navigate(session.url);
+      // Hosted checkout pages (Stripe/Paddle) are absolute URLs → full redirect.
+      // Mock URLs are internal SPA routes → use react-router navigate.
+      if (/^https?:\/\//i.test(session.url)) {
+        window.location.href = session.url;
+      } else {
+        navigate(session.url);
+      }
     } catch (e: any) {
       setError(e?.message || "Backend unavailable. Please try again.");
     } finally {
@@ -114,7 +121,9 @@ export default function Checkout() {
             <Button variant="magic" size="lg" className="mt-5 w-full" onClick={handlePay} disabled={loading}>
               {loading ? <><Loader2 className="mr-1 h-4 w-4 animate-spin" /> Creating session…</> : <><Lock className="mr-1 h-4 w-4" /> Proceed to secure payment</>}
             </Button>
-            <p className="mt-3 text-center text-xs text-muted-foreground">Stripe Checkout · Test mode</p>
+            <p className="mt-3 text-center text-xs text-muted-foreground">
+              {PROVIDER_LABEL[PAYMENT_PROVIDER]}
+            </p>
           </aside>
         </div>
       </div>

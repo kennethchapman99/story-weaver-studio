@@ -12,6 +12,7 @@ import type {
   CheckoutSessionResponse, StoryBlueprint,
 } from "@/types/storyloom";
 import { SAMPLE_ORDERS } from "@/data/sampleOrders";
+import { startCheckout } from "./payments";
 
 const delay = (ms = 600) => new Promise((r) => setTimeout(r, ms));
 
@@ -73,21 +74,19 @@ export async function generateBlueprint(payload: OrderPayload): Promise<StoryBlu
   };
 }
 
-/** POST /api/checkout/session — Creates a Stripe Checkout session. */
+/**
+ * POST /api/checkout/session — Creates a checkout session via the configured
+ * payment provider (see src/services/payments.ts). Returns a hosted-checkout
+ * URL the caller should redirect to.
+ */
 export async function createCheckoutSession(
   orderPayload: OrderPayload,
 ): Promise<CheckoutSessionResponse> {
-  await delay(800);
-  // TODO: Replace with real Stripe call:
-  // const res = await fetch(`${API_URL}/api/checkout/session`, { method: "POST", body: JSON.stringify(orderPayload) });
-  // return res.json();
   if (!orderPayload.package?.packageId) {
     throw new Error("Invalid package");
   }
-  return {
-    sessionId: `cs_test_${Math.random().toString(36).slice(2, 12)}`,
-    url: `/success?order=${orderPayload.id ?? genId()}`,
-  };
+  await delay(400);
+  return startCheckout(orderPayload);
 }
 
 /** GET /api/orders/:id */
