@@ -14,6 +14,7 @@ import Success from "./pages/Success.tsx";
 import Dashboard from "./pages/dashboard/Dashboard.tsx";
 import OrderDetail from "./pages/dashboard/OrderDetail.tsx";
 import Admin from "./pages/Admin.tsx";
+import CustomerOrderPage from "./pages/order/CustomerOrderPage.tsx";
 
 const queryClient = new QueryClient();
 
@@ -34,6 +35,8 @@ const App = () => (
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/dashboard/:id" element={<OrderDetail />} />
           <Route path="/admin" element={<Admin />} />
+          <Route path="/order" element={<CustomerOrderPage />} />
+          <Route path="/order/:token" element={<CustomerOrderPage />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>
